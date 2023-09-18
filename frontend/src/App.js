@@ -15,7 +15,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Soon Laravel
+          Soon Laravel 10
         </a>
       </header>
     </div>
