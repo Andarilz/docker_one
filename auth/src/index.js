@@ -1,6 +1,7 @@
 const express = require("express")
 const { connectDb } = require("./helpers/db")
-const { port, host, db } = require("./config")
+const { port, host, db, api_url } = require("./config")
+const axios = require("axios")
 
 const app = express()
 
@@ -22,6 +23,14 @@ app.get("/api/currentUser", (req, res)=>{
 	res.json({
 		id: 123,
 		email: "isgrammar@gmail.com"
+	})
+})
+
+app.get("/testwithapidata", (req, res) => {
+	axios.get(api_url + "/testapidata").then(response => {
+		res.json({
+			gotData: response.data
+		})
 	})
 })
 
