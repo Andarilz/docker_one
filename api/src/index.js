@@ -1,7 +1,8 @@
 const express = require("express")
 const { connectDb } = require("./helpers/db")
-const { port, host, db } = require("./config")
+const { port, host, db, authApiUrl } = require("./config")
 const { mongoose } = require("mongoose")
+const axios = require("axios")
 
 const app = express()
 
@@ -43,6 +44,16 @@ const startServer = () => {
 app.get("/", (req, res)=>{
 	res.send("API working right")}
 )
+
+app.get("/testwithcurrentuser", (req, res)=>{
+	// console.log("auth", authApiUrl)
+	axios.get(authApiUrl + "/currentUser").then(response => {
+		res.json({
+			currenUser: true,
+			currentUserFromAuth: response.data
+		})
+	})
+})
 
 
 connectDb()

@@ -18,6 +18,13 @@ app.get("/", (req, res)=>{
 )
 
 
+app.get("/api/currentUser", (req, res)=>{
+	res.json({
+		id: 123,
+		email: "isgrammar@gmail.com"
+	})
+})
+
 connectDb()
 	.on("error", console.log)
 	.on("disconnect", connectDb)
