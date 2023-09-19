@@ -7,6 +7,8 @@ services:
     container_name: train-docker-frontend
     command: serve -s build -l 3000
     restart: unless-stopped
+    networks:
+    - train-docker-network
 
   api:
     build: ./api
@@ -22,12 +24,16 @@ services:
       - AUTH_API_URL=http://auth:3002/api
     depends_on:
       - api_db
+    networks:
+    - train-docker-network
 
   api_db:
     image: mongo:latest
     container_name: train-docker-api-db
     volumes:
       - mongodb_api:/data/db
+    networks:
+    - train-docker-network
 
   auth:
     build: ./auth
@@ -43,12 +49,16 @@ services:
       - API_URL=http://api:3001/api
     depends_on:
       - auth_db
+    networks:
+    - train-docker-network
 
   auth_db:
     image: mongo:latest
     container_name: train-docker-auth-db
     volumes:
       - mongodb_auth:/data/db
+    networks:
+    - train-docker-network
 
   nginx:
     image: nginx:stable-alpine
@@ -59,7 +69,14 @@ services:
       - ./nginx/nginx.conf.prod:/etc/nginx/conf.d/nginx.conf
     depends_on:
       - frontend
+    networks:
+      - train-docker-network
 
 volumes:
   mongodb_api:
   mongodb_auth:
+
+networks:
+  train-docker-network:
+    driver: bridge
+
